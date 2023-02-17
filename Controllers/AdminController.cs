@@ -143,16 +143,47 @@ namespace Courses.Controllers
         {
             using (var db = new ApplicationDbContext())
             {
-                var lessonToDelete = _context.Lessons.FirstOrDefault(c => c.Id == lesson.CourseId);
-                if (lesson != null)
+                var lessonToDelete = _context.Lessons.FirstOrDefault(c => c.Id == id);
+                if (lessonToDelete != null)
                 {
                     db.Remove(lesson);
                     db.SaveChanges();
                 }
             }
-            return RedirectToAction(nameof(ViewCourseDetails));
+
+            return RedirectToAction(nameof(Index));
         }
 
+        public ActionResult EditLesson(int id)
+        {
+            var lessonModel = new Lesson
+            {
+                LessonName = _context.Lessons.FirstOrDefault(x => x.Id == id).LessonName,
+                CourseList = _context.Courses.ToList()
+            };
+            return View(lessonModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditLesson(int id, Lesson lesson)
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                var lessonToEdit = _context.Lessons.FirstOrDefault(c => c.Id == id);
+                if (lessonToEdit != null)
+                {
+                    db.Update(lesson);
+                    db.SaveChanges();
+                }
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+        public ActionResult ViewLessonDetails(int id)
+        {
+            return View(_context.Lessons.FirstOrDefault(x => x.Id == id));
+        }
 
 
     }

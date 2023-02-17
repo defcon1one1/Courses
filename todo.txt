@@ -1,13 +1,10 @@
-17/02 04:00
-1. dodaæ ekran lekcji: 
-	dodawanie lekcji z opcj¹ przyporz¹dkowania jej do kursu (FK => Courses.Id)
-	edycja lekcji 
-	usuwanie lekcji
-2. dodaæ model studenta:
+17/02 17:00
+1. dodaæ model studenta:
 	studenci mog¹ uczestniczyæ w wielu kursach, kursy mog¹ mieæ wielu studentów (dodatkowa tabela Enrollments: EnrollmentId, StudentId FK => ApplicationUser.Id (??), CourseId=>FK Courses.Id)
-3. dodaæ ekrany zapisu i wypisu studenta z kursu (jako normalny u¿ytkownik)
-4. dodaæ ekrany dla studenta:
+2. dodaæ ekrany dla studenta:
 	AllCourses - wyœwietla listy kursów z opcj¹ zapisania siê, w tym np. dodatkowy ekran view details, podobny jak u admina tylko bez przycisku edit
+			tu opcja join course (dodaje record do Enrollments)
 	MyCourses - wyœwietla listy kursów do których student jest zapisany z opcj¹ wypisania siê
-5. ogarn¹æ, ¿eby po rejestracji domyœlnie u¿ytkownik mia³ tylko opcjê dostania siê do widoku studenta, a admin powinien miec dostêp do edycji itp. (ca³kiem osobny view np. AdminPanel?)
+			tu opcja leave course (usuwa record z Enrollments)
+3. ogarn¹æ, ¿eby po rejestracji domyœlnie u¿ytkownik mia³ tylko opcjê dostania siê do widoków studenta, a admin powinien mieæ dostêp do panelu admina
 

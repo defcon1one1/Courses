@@ -55,6 +55,7 @@ namespace Courses.Controllers
             {
                 Course courseToEdit = _context.Courses.FirstOrDefault(x => x.Id == id);
                 courseToEdit.CourseName = course.CourseName;
+                
                 _context.Courses.Update(courseToEdit);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
@@ -88,6 +89,10 @@ namespace Courses.Controllers
             }
         }
 
+        public ActionResult ViewDetails(int id)
+        {
+            return View(_context.Courses.FirstOrDefault(x => x.Id == id));
+        }
 
         public ActionResult Index()
         {

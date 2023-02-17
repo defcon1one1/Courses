@@ -2,7 +2,6 @@ using Courses.Areas.Identity.Data;
 using Courses.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Courses.Controllers
 {
@@ -99,7 +98,7 @@ namespace Courses.Controllers
             }
         }
 
-        public ActionResult ViewDetails(int id)
+        public ActionResult ViewCourseDetails(int id)
         {
             return View(_context.Courses.FirstOrDefault(x => x.Id == id));
         }
@@ -108,30 +107,50 @@ namespace Courses.Controllers
         #endregion
 
 
-        public IActionResult AddLesson()
+        public ActionResult AddLesson()
         {
-            return View();
+            var lessonModel = new Lesson
+            {
+                CourseList = _context.Courses.ToList()
+            };
+            return View(lessonModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult AddLesson(Lesson lesson)
         {
-            try
+            using (var db = new ApplicationDbContext())
             {
                 var course = _context.Courses.FirstOrDefault(c => c.Id == lesson.CourseId);
                 if (course != null)
                 {
-                    lesson.Course = course;
-                    _context.Lessons.Add(lesson);
-                    _context.SaveChanges();
+                    db.Add(lesson);
+                    db.SaveChanges();
                 }
-                return RedirectToAction(nameof(Index));
             }
-            catch
+            return RedirectToAction(nameof(Index));
+        }
+
+        public ActionResult DeleteLesson(int id)
+        {
+            return View(_context.Lessons.FirstOrDefault(x => x.Id == id));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteLesson(int id, Lesson lesson)
+        {
+            using (var db = new ApplicationDbContext())
             {
-                return View();
+                var lessonToDelete = _context.Lessons.FirstOrDefault(c => c.Id == lesson.CourseId);
+                if (lesson != null)
+                {
+                    db.Remove(lesson);
+                    db.SaveChanges();
+                }
             }
+            return RedirectToAction(nameof(ViewCourseDetails));
         }
 
 

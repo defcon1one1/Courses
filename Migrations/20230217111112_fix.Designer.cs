@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Courses.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230217015929_fix")]
+    [Migration("20230217111112_fix")]
     partial class fix
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,6 +35,9 @@ namespace Courses.Migrations
                     b.Property<string>("CourseName")
                         .IsRequired()
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("Level")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -268,7 +271,7 @@ namespace Courses.Migrations
             modelBuilder.Entity("Courses.Models.Lesson", b =>
                 {
                     b.HasOne("Courses.Models.Course", "Course")
-                        .WithMany()
+                        .WithMany("Lessons")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -325,6 +328,11 @@ namespace Courses.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Courses.Models.Course", b =>
+                {
+                    b.Navigation("Lessons");
                 });
 #pragma warning restore 612, 618
         }

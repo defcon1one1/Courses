@@ -20,7 +20,6 @@ namespace Courses.Models
 
         public List<Lesson> Lessons { get => GetLessons(); }
 
-
         private List<Lesson> GetLessons()
         {
             using (var db = new ApplicationDbContext())
@@ -30,6 +29,7 @@ namespace Courses.Models
                 return lessons;
             }
         }
+
 
     }
 }

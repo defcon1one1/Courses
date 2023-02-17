@@ -16,5 +16,7 @@ namespace Courses.Models
         [ForeignKey("Course")]
         public int CourseId { get; set; }
         public Course? Course { get; set; }
+        [NotMapped]
+        public List<Course>? CourseList { get; set; }
     }
 }

@@ -1,23 +1,35 @@
+using Courses.Areas.Identity.Data;
+using Courses.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Courses.Models;
-using Courses.Areas.Identity.Data;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Courses.Controllers
 {
     [Authorize]
-    public class CoursesController : Controller
+    public class AdminController : Controller
     {
 
         private readonly ApplicationDbContext _context;
 
-        public CoursesController(ApplicationDbContext context)
+
+        public AdminController(ApplicationDbContext context)
         {
             _context = context;
             courses = _context.Courses.ToList();
         }
 
+
+
+
+        #region Courses
+
         private List<Course> courses = new List<Course>();
+
+        public ActionResult Index()
+        {
+            return View(courses);
+        }
 
         public ActionResult AddCourse()
         {
@@ -38,8 +50,6 @@ namespace Courses.Controllers
             {
                 return View();
             }
-        
-        
         }
 
         public ActionResult EditCourse(int id)
@@ -55,7 +65,7 @@ namespace Courses.Controllers
             {
                 Course courseToEdit = _context.Courses.FirstOrDefault(x => x.Id == id);
                 courseToEdit.CourseName = course.CourseName;
-                
+
                 _context.Courses.Update(courseToEdit);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
@@ -94,9 +104,37 @@ namespace Courses.Controllers
             return View(_context.Courses.FirstOrDefault(x => x.Id == id));
         }
 
-        public ActionResult Index()
+
+        #endregion
+
+
+        public IActionResult AddLesson()
         {
-            return View(courses);
+            return View();
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddLesson(Lesson lesson)
+        {
+            try
+            {
+                var course = _context.Courses.FirstOrDefault(c => c.Id == lesson.CourseId);
+                if (course != null)
+                {
+                    lesson.Course = course;
+                    _context.Lessons.Add(lesson);
+                    _context.SaveChanges();
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+
+
     }
 }

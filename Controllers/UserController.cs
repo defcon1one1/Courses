@@ -1,4 +1,4 @@
-﻿using Courses.Areas.Identity.Data;
+using Courses.Areas.Identity.Data;
 using Courses.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -23,8 +23,14 @@ namespace Courses.Controllers
         }
         [AllowAnonymous]
         public ActionResult Courses()
+
         {
             return View(courses);
+        }
+        [AllowAnonymous]
+        public ActionResult ViewCourseDetails(int id)
+        {
+            return View(_context.Courses.FirstOrDefault(x => x.Id == id));
         }
 
     }

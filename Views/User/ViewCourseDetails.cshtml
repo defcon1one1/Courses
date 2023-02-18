@@ -1,4 +1,4 @@
-﻿@model Courses.Models.Course
+@model Courses.Models.Course
 
 @{
     ViewData["Title"] = "Course details";
@@ -62,6 +62,5 @@
     </table>
 </div>
 <div>
-    @Html.ActionLink("Edit", "EditCourse", new {  id = Model.Id }) |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Courses">Back to List</a>
 </div>

@@ -1,4 +1,4 @@
-﻿using Courses.Areas.Identity.Data;
+using Courses.Areas.Identity.Data;
 using Courses.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

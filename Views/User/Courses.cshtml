@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Courses.Models.Course>
+@model IEnumerable<Courses.Models.Course>
 
 @{
     ViewData["Title"] = "Courses";
@@ -25,6 +25,10 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.CourseName)
                 </td>
+
+                                    <td>
+                    @Html.ActionLink("View details", "ViewCourseDetails", new {  id=item.Id  })
+                    </td>
 
             </tr>
         }

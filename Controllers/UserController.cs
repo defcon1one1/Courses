@@ -23,8 +23,14 @@ namespace Courses.Controllers
         }
         [AllowAnonymous]
         public ActionResult Courses()
+
         {
             return View(courses);
+        }
+        [AllowAnonymous]
+        public ActionResult ViewCourseDetails(int id)
+        {
+            return View(_context.Courses.FirstOrDefault(x => x.Id == id));
         }
 
     }

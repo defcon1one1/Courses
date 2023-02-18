@@ -1,6 +1,7 @@
 ﻿using Courses.Areas.Identity.Data;
 using Courses.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Courses.Controllers
@@ -9,20 +10,22 @@ namespace Courses.Controllers
     public class UserController : Controller
     {
 
+
         private readonly ApplicationDbContext _context;
-        private List<Enrollment> Enrollments;
+        private List<Course> courses = new List<Course>();
+        private List<Instructor> instructors = new List<Instructor>();
 
         public UserController(ApplicationDbContext context)
         {
             _context = context;
-            Enrollments = _context.Enrollments.ToList();
+            courses = _context.Courses.ToList();
+            instructors = _context.Instructors.ToList();
         }
-
-        public ActionResult MyCourses()
+        [AllowAnonymous]
+        public ActionResult Courses()
         {
-            return View(Enrollments);
+            return View(courses);
         }
-
 
     }
 }

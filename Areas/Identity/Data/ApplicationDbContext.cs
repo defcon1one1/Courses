@@ -17,12 +17,12 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
 
     public ApplicationDbContext()
     {
-
+        
     }
 
     public DbSet<Course> Courses { get; set; }
     public DbSet<Lesson> Lessons { get; set; }
-    public DbSet<Enrollment> Enrollments { get; set; }
+    public DbSet<Instructor> Instructors { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

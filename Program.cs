@@ -13,6 +13,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -27,7 +28,8 @@ app.UseRouting();
 app.UseAuthentication();;
 
 app.UseAuthorization();
-
+//services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+//    .AddEntityFrameworkStores<ApplicationDbContext>();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

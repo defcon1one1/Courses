@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Add Course";
+    var instructorList = new SelectList(Model.InstructorList, "Id", "FullName");
 }
 
 <h1>Add Course</h1>
@@ -22,6 +23,17 @@
             <div class="form-group">
                 <label asp-for="Level" class="control-label"></label>
                 <select asp-for="Level" asp-items="Html.GetEnumSelectList<Course.Levels>()"></select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+             <div class="form-group">
+                <label asp-for="InstructorId" class="control-label"></label>
+                @Html.DropDownListFor(m => m.InstructorId, instructorList, "Select an instructor", new { @class = "form-control" })
+                <span asp-validation-for="InstructorId" class="text-danger"></span>
             </div>
 
             <div class="form-group">

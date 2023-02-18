@@ -10,12 +10,14 @@ namespace Courses.Controllers
     {
 
         private readonly ApplicationDbContext _context;
-
+        private List<Instructor> instructors = new List<Instructor>();
+        private List<Course> courses = new List<Course>();
 
         public AdminController(ApplicationDbContext context)
         {
             _context = context;
             courses = _context.Courses.ToList();
+            instructors = _context.Instructors.ToList();
         }
 
 
@@ -23,7 +25,6 @@ namespace Courses.Controllers
 
         #region Courses
 
-        private List<Course> courses = new List<Course>();
 
         public ActionResult Index()
         {
@@ -32,7 +33,11 @@ namespace Courses.Controllers
 
         public ActionResult AddCourse()
         {
-            return View();
+            var courseModel = new Course
+            {
+                InstructorList = instructors
+            };
+            return View(courseModel);
         }
 
         [HttpPost]
@@ -41,6 +46,7 @@ namespace Courses.Controllers
         {
             try
             {
+                course.ReleaseDate = DateTime.Now;
                 _context.Courses.Add(course);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
@@ -50,10 +56,15 @@ namespace Courses.Controllers
                 return View();
             }
         }
-
+        
         public ActionResult EditCourse(int id)
         {
-            return View(_context.Courses.FirstOrDefault(x => x.Id == id));
+            var courseModel = new Course
+            {
+                CourseName = _context.Courses.FirstOrDefault(x => x.Id == id).CourseName,
+                InstructorList = instructors
+            };
+            return View(courseModel);
         }
 
         [HttpPost]
@@ -64,7 +75,8 @@ namespace Courses.Controllers
             {
                 Course courseToEdit = _context.Courses.FirstOrDefault(x => x.Id == id);
                 courseToEdit.CourseName = course.CourseName;
-
+                courseToEdit.Level= course.Level;
+                courseToEdit.InstructorId = course.InstructorId;
                 _context.Courses.Update(courseToEdit);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
@@ -97,7 +109,7 @@ namespace Courses.Controllers
                 return View();
             }
         }
-
+       
         public ActionResult ViewCourseDetails(int id)
         {
             return View(_context.Courses.FirstOrDefault(x => x.Id == id));
@@ -180,6 +192,7 @@ namespace Courses.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
         public ActionResult ViewLessonDetails(int id)
         {
             return View(_context.Lessons.FirstOrDefault(x => x.Id == id));

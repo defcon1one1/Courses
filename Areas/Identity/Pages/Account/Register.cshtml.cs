@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Courses.Models;
 
 namespace Courses.Areas.Identity.Pages.Account
 {
@@ -79,6 +80,7 @@ namespace Courses.Areas.Identity.Pages.Account
             [Display(Name = "LastName")]
             [StringLength(255, ErrorMessage = "max 255.")]
             public string LastName { get; set; }
+            public List<Course> Enrollments { get; set; }
 
 
             /// <summary>
